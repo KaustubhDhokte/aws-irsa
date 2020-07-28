@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: PCNAME
+spec:
+  serviceAccountName: SANAME
+  containers:
+  - name: PCNAME
+    image: docker.io/kaustud/aws-boto3
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]

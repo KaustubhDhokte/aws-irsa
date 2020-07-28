@@ -1,0 +1,22 @@
+{
+ "Version": "2012-10-17",
+ "Statement": [
+  {
+   "Effect": "Allow",
+   "Principal": {
+    "Federated": "arn:aws:iam::766262013316:oidc-provider/oidc.eks.us-east-2.amazonaws.com/id/9EA557383571C7D94A6593D3607E950F"
+   },
+   "Action": "sts:AssumeRoleWithWebIdentity",
+   "Condition": {
+    "__doc_comment": "scope the role to the service account (optional)",
+    "StringEquals": {
+     "oidc.eks.us-east-2.amazonaws.com/id/9EA557383571C7D94A6593D3607E950F:sub": "system:serviceaccount:default:s3-echoer"
+    },
+    "__doc_comment": "scope the role to a namespace (optional)",
+    "StringLike": {
+     "oidc.eks.us-east-2.amazonaws.com/id/9EA557383571C7D94A6593D3607E950F:sub": "system:serviceaccount:default:*"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: triliovault
+spec:
+  serviceAccountName: SANAME
+  containers:
+  - name: triliovault
+    image: docker.io/kaustud/aws-boto3
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
