@@ -6,7 +6,7 @@
       "Principal": {
         "AWS": "arn:aws:iam::766262013316:user/NIU"
       },
-      "Action": "sts:AssumeRole",
+      "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {}
     }
   ]

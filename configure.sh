@@ -4,7 +4,7 @@ AWS_ROOT_ACCOUNT_ID=$1
 timestamp="$(date +%s)"
 NEW_USER_NAME="NIU"
 NEW_ROLE_NAME="NIR"
-SERVICE_ACCOUNT_NAME="triliobkpadmin"
+SERVICE_ACCOUNT_NAME="triliobkpadminksmeet"
 CERTIFICATE_PERIOD=365
 POD_IDENTITY_SERVICE_NAME=pod-identity-webhook
 POD_IDENTITY_SECRET_NAME=pod-identity-webhook
@@ -58,7 +58,7 @@ cat > irsa-trust-policy.json << EOF
       "Principal": {
         "AWS": "$ROLE_AWS_POLICY_USER_ARN"
       },
-      "Action": "sts:AssumeRole",
+      "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {}
     }
   ]
@@ -102,11 +102,17 @@ Printf "\nCreating and Annotating service account with the role ... \n"
 
 ROLE_ARN=$(aws iam get-role --role-name $NEW_ROLE_NAME --query Role.Arn --output text)
 
-kubectl -n kube-system create sa $SERVICE_ACCOUNT_NAME
+# kubectl -n kube-system create sa $SERVICE_ACCOUNT_NAME
 
-kubectl -n kube-system annotate sa $SERVICE_ACCOUNT_NAME eks.amazonaws.com/role-arn=$ROLE_ARN
+# kubectl -n kube-system annotate sa $SERVICE_ACCOUNT_NAME eks.amazonaws.com/role-arn=$ROLE_ARN
 
-kubectl -n kube-system get sa $SERVICE_ACCOUNT_NAME -o yaml
+# kubectl -n kube-system get sa $SERVICE_ACCOUNT_NAME -o yaml
+
+kubectl -n $POD_IDENTITY_SERVICE_NAMESPACE create sa $SERVICE_ACCOUNT_NAME
+
+kubectl -n $POD_IDENTITY_SERVICE_NAMESPACE annotate sa $SERVICE_ACCOUNT_NAME eks.amazonaws.com/role-arn=$ROLE_ARN
+
+kubectl -n $POD_IDENTITY_SERVICE_NAMESPACE get sa $SERVICE_ACCOUNT_NAME -o yaml
 
 Printf "\n*****************************************************************************************************************"
 
@@ -116,8 +122,13 @@ sed -e "s/PCNAME/${PCNAME}/g" kaustubhboto3.yaml.template > kaustubhboto3before.
 
 sed -e "s/SANAME/$SERVICE_ACCOUNT_NAME/g" kaustubhboto3before.yaml > kaustubhboto3.yaml
 
-kubectl -n kube-system create -f kaustubhboto3.yaml
+# kubectl -n kube-system create -f kaustubhboto3.yaml
 
-kubectl -n kube-system get pod ${PCNAME} -o yaml
+# kubectl -n kube-system get pod ${PCNAME} -o yaml
+
+kubectl -n $POD_IDENTITY_SERVICE_NAMESPACE create -f kaustubhboto3.yaml
+
+kubectl -n $POD_IDENTITY_SERVICE_NAMESPACE get pod ${PCNAME} -o yaml
+
 
 Printf "\n*****************************************************************************************************************\n"
