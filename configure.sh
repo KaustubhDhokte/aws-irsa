@@ -10,7 +10,7 @@ POD_IDENTITY_SERVICE_NAME=pod-identity-webhook
 POD_IDENTITY_SECRET_NAME=pod-identity-webhook
 POD_IDENTITY_SERVICE_NAMESPACE=$2
 SCRIPTS="deploy_$2"
-PCNAME="triliovault"
+PCNAME="triliovaulttrilio"
 
 rm -rf certs
 mkdir -p certs
@@ -102,11 +102,11 @@ Printf "\nCreating and Annotating service account with the role ... \n"
 
 ROLE_ARN=$(aws iam get-role --role-name $NEW_ROLE_NAME --query Role.Arn --output text)
 
-kubectl create sa $SERVICE_ACCOUNT_NAME
+kubectl -n kube-system create sa $SERVICE_ACCOUNT_NAME
 
-kubectl annotate sa $SERVICE_ACCOUNT_NAME eks.amazonaws.com/role-arn=$ROLE_ARN
+kubectl -n kube-system annotate sa $SERVICE_ACCOUNT_NAME eks.amazonaws.com/role-arn=$ROLE_ARN
 
-kubectl get sa $SERVICE_ACCOUNT_NAME -o yaml
+kubectl -n kube-system get sa $SERVICE_ACCOUNT_NAME -o yaml
 
 Printf "\n*****************************************************************************************************************"
 
@@ -116,8 +116,8 @@ sed -e "s/PCNAME/${PCNAME}/g" kaustubhboto3.yaml.template > kaustubhboto3before.
 
 sed -e "s/SANAME/$SERVICE_ACCOUNT_NAME/g" kaustubhboto3before.yaml > kaustubhboto3.yaml
 
-kubectl create -f kaustubhboto3.yaml
+kubectl -n kube-system create -f kaustubhboto3.yaml
 
-kubectl get pod ${PCNAME} -o yaml
+kubectl -n kube-system get pod ${PCNAME} -o yaml
 
 Printf "\n*****************************************************************************************************************\n"
