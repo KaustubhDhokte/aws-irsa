@@ -5,12 +5,12 @@ Prerequisites:
 
 This package assumes you have below libraries installed
 
-1. AWS (tested with aws-cli/2.0.30 Python/3.7.4 Darwin/18.7.0 botocore/2.0.0dev34)
-2. Kubectl (tested with client version v1.18.3, server version v1.16.8-eks-fd1ea7)
+    1. AWS (tested with aws-cli/2.0.30 Python/3.7.4 Darwin/18.7.0 botocore/2.0.0dev34)
+    2. Kubectl (tested with client version v1.18.3, server version v1.16.8-eks-fd1ea7)
 
-A running EKS setup in us-east-2 region.
+    A running EKS setup in us-east-2 region.
 
-AWS cli and kubectl configured to work with EKS setup.
+    AWS cli and kubectl configured to work with EKS setup.
 
 Run the configurator
 
