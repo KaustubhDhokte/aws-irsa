@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: triliovaulttrilio
 spec:
-  serviceAccountName: triliobkpadminksmeet
+  serviceAccountName: bkpadmin
   containers:
   - name: triliovaulttrilio
     image: docker.io/kaustud/aws-boto3
